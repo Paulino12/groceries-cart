@@ -6,7 +6,7 @@ const Navbar = () => {
     const { amount } = useSelector((store) => store.cart)
     return (
         <>
-            <nav className="bg-gray-800 w-full z-20">
+            <nav className="bg-gray-800 w-full z-20 fixed">
                 <div className="px-16">
                     <div className="flex items-center justify-between h-12">
                         <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">

@@ -79,7 +79,7 @@ const Cart = () => {
   }
 
   return (
-    <div className='w-full md:w-2/3 mx-auto mt-3 relative'>
+    <div className='w-full md:w-2/3 mx-auto mt-3 pb-3 relative'>
       {
         !cartItems.length ? 
         <AnimatePresence>
@@ -125,11 +125,11 @@ const Cart = () => {
                 {
                   filteredCartitems.map((grocery, index) => {
                     return <motion.tr 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 2, ease: "easeInOut" }}
-                    layout
+                    // initial={{ opacity: 0 }}
+                    // animate={{ opacity: 1 }}
+                    // exit={{ opacity: 0 }}
+                    // transition={{ duration: 2, ease: "easeInOut" }}
+                    // layout
                     className={`cursor-pointer rounded pl-3 py-1 w-full capitalize 
                     ${index % 2 ? 'bg-gray-100' : ''}`}
                     key={index}>

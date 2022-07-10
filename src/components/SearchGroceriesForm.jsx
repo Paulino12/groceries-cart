@@ -35,7 +35,7 @@ const SearchGroceryForm = () => {
     }, [debouncedQuery, supplier])
 
     return (
-        <div className='w-full md:w-2/3 px-5 md:px-0 mx-auto mt-3 relative'>
+        <div className='w-full md:w-2/3 px-5 md:px-0 mx-auto pt-20 relative'>
             <AnimatePresence>
                 {
                     showNotification && 
