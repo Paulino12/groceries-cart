@@ -94,100 +94,113 @@ const Cart = () => {
           transition={{ delay: 0.5, duration: 1, ease: "easeInOut" }}
           className='rounded-md shadow-lg w-full mx-auto px-1 py-3 lg:px-5 bg-white'>
             <div className='grid grid-cols-2 md:grid-cols-5 space-x-2 my-3'>
-              <h1 onClick={() => {
+              <motion.h1 
+              whileTap={{ scale: 0.95 }}
+              onClick={() => {
                 setSelectedSupplier("all")
                 setFilteredCartItems(cartItems)
-              }} className={`${selectedSupplier === "all" ? 'bg-yellow-300 font-semibold' : ''} hover:bg-yellow-100 hover:font-semibold cursor-pointer rounded-md p-2 text-xs flex items-center justify-center`}>All</h1>
+              }} className={`${selectedSupplier === "all" ? 'bg-yellow-300 font-semibold' : ''} 
+              hover:bg-yellow-100 hover:font-semibold cursor-pointer rounded-md p-2 text-xs flex items-center justify-center`}>
+                All
+              </motion.h1>
               {
                 cartDistinctSuppliers.map((item, index) => {
-                  return <h1 key={index} onClick={() => handleSupplier(item)} className={`${selectedSupplier === item ? 'bg-yellow-300 font-semibold' : ''} hover:bg-yellow-100 hover:font-semibold cursor-pointer rounded-md p-2 text-xs flex items-center justify-center`}>
+                  return <motion.h1 key={index} 
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleSupplier(item)} className={`${selectedSupplier === item ? 'bg-yellow-300 font-semibold' : ''} hover:bg-yellow-100 hover:font-semibold cursor-pointer rounded-md p-2 text-xs flex items-center justify-center`}>
                     {item.substring(0, 20)}
-                  </h1>
+                  </motion.h1>
                 })
               }
             </div>
-            <table className={`w-full`}>
-              <thead className='bg-black text-white'>
-                <tr>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">
-                        Ingredients
-                    </th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">Suppliers</th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">Codes</th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">Prices</th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">Size</th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">Qty</th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left">£/Ing</th>
-                    <th scope="col" className="text-xs xl:text-sm font-medium text-left"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  filteredCartitems.map((grocery, index) => {
-                    return <motion.tr 
-                    // initial={{ opacity: 0 }}
-                    // animate={{ opacity: 1 }}
-                    // exit={{ opacity: 0 }}
-                    // transition={{ duration: 2, ease: "easeInOut" }}
-                    // layout
-                    className={`cursor-pointer rounded pl-3 py-1 w-full capitalize 
-                    ${index % 2 ? 'bg-gray-100' : ''}`}
-                    key={index}>
-                      <td className='text-xs py-2'><span>{grocery.productDescription}</span></td>
-                      <td className='text-xs py-2'><span>{grocery.vendorName}</span></td>
-                      <td className='text-xs py-2'><span>{grocery.vendorCode}</span></td>
-                      <td className='text-xs py-2'><span>£{grocery.price}</span></td>
-                      <td className='text-xs py-2'><span>{grocery.packSize}</span></td>
-                      <td className='text-xs py-2'><span>{grocery.quantity}</span></td>
-                      <td className='text-xs py-2'><span>£{parseFloat(grocery.price * grocery.quantity).toFixed(2)}</span></td>
-                      <td className='py-2 flex flex-col md:flex-row md:space-x-1 w-full h-full items-center justify-center'>
-                        <motion.span
-                        whileTap={{ scale: 0.9 }} 
-                        className='rounded-lg p-1 bg-green-200 flex items-center justify-center' 
-                        onClick={() => editCartItem(
-                          grocery._id, grocery.productDescription, grocery.vendorName, grocery.vendorCode, 
-                          grocery.price, grocery.packSize, grocery.quantity
-                        )}>
-                          <EditIcon color='success' fontSize='inherit' className='cursor-pointer' />
-                        </motion.span>
-                        <motion.span
-                        whileTap={{ scale: 0.9 }} 
-                        className='rounded-lg p-1 bg-red-200 flex items-center justify-center' onClick={() => deleteCartItem(grocery._id)}>
-                          <DeleteIcon color='error' fontSize='inherit' className='cursor-pointer' />
-                        </motion.span>
-                      </td>
-                    </motion.tr>
-                  })
-                }
-                <tr className='h-6'><td></td></tr>
-                {
-                  selectedSupplier !== "all" &&
-                  <tr>
-                  <td></td><td></td><td></td><td></td><td></td>
-                  <td className='text-sm py-2'>Sub Total:</td>
-                  <td className='text-base font-semibold'>£
+            <AnimatePresence exitBeforeEnter>
+              <motion.div
+              key={selectedSupplier}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                <table className={`w-full`}>
+                  <thead className='bg-black text-white'>
+                    <tr>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">
+                            Ingredients
+                        </th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">Suppliers</th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">Codes</th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">Prices</th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">Size</th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">Qty</th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left">£/Ing</th>
+                        <th scope="col" className="text-xs xl:text-sm font-medium text-left"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
                     {
-                      parseFloat(subTotal.reduce((acc, curr) => { return acc += parseFloat(curr)}, 0)).toFixed(2)
+                      filteredCartitems.map((grocery, index) => {
+                        return <tr
+                        className={`cursor-pointer rounded pl-3 py-1 w-full capitalize 
+                        ${index % 2 ? 'bg-gray-100' : ''}`}
+                        key={index}>
+                          <td className='text-xs py-2'><span>{grocery.productDescription}</span></td>
+                          <td className='text-xs py-2'><span>{grocery.vendorName}</span></td>
+                          <td className='text-xs py-2'><span>{grocery.vendorCode}</span></td>
+                          <td className='text-xs py-2'><span>£{grocery.price}</span></td>
+                          <td className='text-xs py-2'><span>{grocery.packSize}</span></td>
+                          <td className='text-xs py-2'><span>{grocery.quantity}</span></td>
+                          <td className='text-xs py-2'><span>£{parseFloat(grocery.price * grocery.quantity).toFixed(2)}</span></td>
+                          <td className='py-2 flex flex-col md:flex-row md:space-x-1 w-full h-full items-center justify-center'>
+                            <motion.span
+                            whileTap={{ scale: 0.9 }} 
+                            className='rounded-lg p-1 bg-green-200 flex items-center justify-center' 
+                            onClick={() => editCartItem(
+                              grocery._id, grocery.productDescription, grocery.vendorName, grocery.vendorCode, 
+                              grocery.price, grocery.packSize, grocery.quantity
+                            )}>
+                              <EditIcon color='success' fontSize='inherit' className='cursor-pointer' />
+                            </motion.span>
+                            <motion.span
+                            whileTap={{ scale: 0.9 }} 
+                            className='rounded-lg p-1 bg-red-200 flex items-center justify-center' onClick={() => deleteCartItem(grocery._id)}>
+                              <DeleteIcon color='error' fontSize='inherit' className='cursor-pointer' />
+                            </motion.span>
+                          </td>
+                        </tr>
+                      })
                     }
-                  </td>
-                  <td className='justify-center py-2'></td>
-                </tr>
-                }
-                {
-                  selectedSupplier === "all" &&
-                  <tr>
-                    <td></td><td></td><td></td><td></td><td></td>
-                    <td className='text-sm py-2'>Total:</td>
-                    <td className='text-base font-semibold'>£
-                      {
-                        parseFloat(totalCost.reduce((acc, curr) => { return acc += parseFloat(curr)}, 0)).toFixed(2)
-                      }
-                    </td>
-                    <td className='justify-center py-2'></td>
-                  </tr>
-                }
-              </tbody>
-            </table>
+                    <tr className='h-6'><td></td></tr>
+                    {
+                      selectedSupplier !== "all" &&
+                      <tr>
+                      <td></td><td></td><td></td><td></td><td></td>
+                      <td className='text-sm py-2'>Sub Total:</td>
+                      <td className='text-base font-semibold'>£
+                        {
+                          parseFloat(subTotal.reduce((acc, curr) => { return acc += parseFloat(curr)}, 0)).toFixed(2)
+                        }
+                      </td>
+                      <td className='justify-center py-2'></td>
+                    </tr>
+                    }
+                    {
+                      selectedSupplier === "all" &&
+                      <tr>
+                        <td></td><td></td><td></td><td></td><td></td>
+                        <td className='text-sm py-2'>Total:</td>
+                        <td className='text-base font-semibold'>£
+                          {
+                            parseFloat(totalCost.reduce((acc, curr) => { return acc += parseFloat(curr)}, 0)).toFixed(2)
+                          }
+                        </td>
+                        <td className='justify-center py-2'></td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </motion.div>
+            </AnimatePresence>
+            
             <div className='flex justify-end space-x-2'>
               {/* <Button handleClick={checkOut} btnText="Check Out" classname="text-base defaultBtn" /> */}
               <Button handleClick={clearCart} btnText="Clear Cart" classname="text-base redBtn" />

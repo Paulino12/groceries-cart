@@ -15,5 +15,5 @@ root.render(
         <App />
       </Provider>
     </CartContextProvider>
-  </React.StrictMode>
+  </React.StrictMode> 
 );

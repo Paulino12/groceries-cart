@@ -16,8 +16,8 @@ function Notification() {
     }, [notification, setShowNotification])
 
     return (
-        <div className={`${notification.includes('wrong') ? 'bg-red-200 text-red-800':'bg-green-200 text-green-800'}
-        p-3 w-full h-1/2
+        <div className={`${notification.includes('Could not') ? 'bg-red-200 text-red-800':'bg-green-200 text-green-800'}
+        p-3 w-full h-1/4
         rounded-xl shadow-md flex items-center justify-between font-bold text-xl`}>
             <h1 className='text-sm'>{notification}</h1>
             <div onClick={() => dispatch(setShowNotification(false))} className='cursor-pointer flex items-center'>

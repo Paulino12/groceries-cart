@@ -6,7 +6,7 @@ const initialState = {
     groceries: [],
     isLoading: false,
     showGroceries: false,
-    dynamicMessage: ''
+    error: ''
 }
 
 const axiosOptions = (searchQuery) => {
@@ -31,7 +31,7 @@ export const getGroceries = createAsyncThunk('ingredient/getGroceries', async (n
             return groceriesBySupplier
         }
     } catch (error) {
-        return thunkAPI.rejectWithValue('Could not load ingredients.')
+        return thunkAPI.rejectWithValue('Could not load ingredients. Please check your internet connection.')
     }
 })
 
@@ -51,9 +51,6 @@ const ingredientSlice = createSlice({
         setShowGroceries: (state, action) => {
             state.showGroceries = action.payload
         },
-        setDynamicMessage: (state, action) => {
-            state.dynamicMessage = action.payload
-        }
     },
     extraReducers: {
         [getGroceries.pending]: (state) => {
@@ -65,6 +62,8 @@ const ingredientSlice = createSlice({
             state.isLoading = false
         },
         [getGroceries.rejected]: (state, action) => {
+            // show errors
+            state.error = action.payload
             state.isLoading = false
         }
     }

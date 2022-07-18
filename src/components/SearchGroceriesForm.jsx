@@ -11,10 +11,11 @@ import useDebounce from '../customHooks/useDebounce'
 import SearchGroceriesResults from './SearchGroceriesResults'
 
 import { suppliers } from '../utils/suppliers'
+import { setNotification, setShowNotification } from '../features/notification/notificationSlice'
 
 
 const SearchGroceryForm = () => {
-    const { ingredient } = useSelector((store) => store.ingredient)
+    const { ingredient, error } = useSelector((store) => store.ingredient)
     const { supplier } = useSelector((store) => store.supplier)
     const { showNotification } = useSelector((store) => store.notification)
  
@@ -23,15 +24,21 @@ const SearchGroceryForm = () => {
     const debouncedQuery = useDebounce(ingredient, 250)
 
     useEffect(() => {
-        dispatch(setIsLoading(true))
-        // get groceries based on input and selected supplier
-        if(ingredient === "") {// if empty do nothing
-            dispatch(setShowGroceries(false))
-            dispatch(setGroceries([]))
-            return
+        // check for errors
+        if(error){
+            dispatch(setNotification(error))
+            dispatch(setShowNotification(true))
+        }else{
+            dispatch(setIsLoading(true))
+            // get groceries based on input and selected supplier
+            if(ingredient === "") {// if empty do nothing
+                dispatch(setShowGroceries(false))
+                dispatch(setGroceries([]))
+                return
+            }
+            // get groceries
+            dispatch(getGroceries({ingredient, supplier}))
         }
-        // get groceries
-        dispatch(getGroceries({ingredient, supplier}))
     }, [debouncedQuery, supplier])
 
     return (
@@ -41,10 +48,10 @@ const SearchGroceryForm = () => {
                     showNotification && 
                     <motion.div 
                     initial={{opacity: 0}}
-                    animate={{opacity: 1, x: -25}}
+                    animate={{opacity: 1, y: 50}}
                     transition={{duration: 0.5}}
                     exit={{opacity: 0, y: -50}}
-                    className='absolute top-0 right-0 md:-right-60 flex justify-center h-1/2 md:h-full sm:w-2/3 md:w-96 lg:w-1/3 z-10'
+                    className='absolute top-0 right-0 md:-right-60 flex justify-center h-1/2 md:h-full sm:w-2/3 md:w-96 lg:w-1/3 z-20'
                     >
                         <Notification />
                     </motion.div>
@@ -76,11 +83,7 @@ const SearchGroceryForm = () => {
                 </div>
             </form>
             <AnimatePresence>
-                
-                    
-                    <SearchGroceriesResults />
-                
-                
+                <SearchGroceriesResults />
             </AnimatePresence>
         </div>
     )
