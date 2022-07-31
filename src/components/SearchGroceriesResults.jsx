@@ -70,10 +70,7 @@ const SearchGroceriesResults = () => {
     return (
         <motion.div 
         className={`fixed w-full px-1 mt-3 md:p-0 left-0 ${showGroceries ? 'h-screen' : ''} items-center justify-center bg-black bg-opacity-70 z-10`}>
-            <span className='text-white'>{sumQtyInputs}   --- 
-            {inputArr}  
-             --- {filteredInputArr} </span>
-            {
+           {
                 showGroceries &&
                 <div>
                     {
