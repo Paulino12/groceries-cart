@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSupplier } from '../features/supplier/supplierSlice'
-import { setIngredient, setDynamicMessage } from '../features/ingredient/ingredientSlice'
+import { setIngredient } from '../features/ingredient/ingredientSlice'
 import { setCartItems } from '../features/cart/cartSlice'
 import { CartContext } from '../contexts/cartContext'
 

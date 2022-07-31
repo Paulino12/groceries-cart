@@ -14,11 +14,22 @@ import Preloader from './Preloader'
 import EmptyGroceriesResult from './EmptyGroceriesResult'
 
 const SearchGroceriesResults = () => {
+    const { cartItems } = useSelector((store) => store.cart) 
 
-    const { qtyInputs, data, handleInputs} = useContext(CartContext)
+    const { qtyInputs, data, handleInputs, inputId, setInputId, showAddToBasketBtn} = useContext(CartContext)
 
     const { groceries, showGroceries, isLoading, dynamicMessage } = useSelector((store) => store.ingredient)
     const dispatch = useDispatch()
+
+    const [sumQtyInputs, setSumQtyInputs] = useState(null)
+    const [inputArr, setInputArr] = useState([])
+    const [filteredInputArr, setFilteredInputArr] = useState([])
+
+    useEffect(() => {
+        setSumQtyInputs(Object.values(qtyInputs).reduce((acc, curr) => { return acc + curr }, 0))
+        setInputArr(Object.values(qtyInputs))
+        setFilteredInputArr(Object.values(qtyInputs).filter((elt) => elt !== 0))
+    }, [qtyInputs])
 
     // Pagination Constants
     const [page, setPage] = useState(1)
@@ -47,7 +58,6 @@ const SearchGroceriesResults = () => {
         // reset form
         dispatch(setIngredient(''))
         dispatch(setSupplier("all"))
-        // dispatch(setShowGroceries(false))
     }
 
     const cancelAddOrEdit = () => {
@@ -60,6 +70,9 @@ const SearchGroceriesResults = () => {
     return (
         <motion.div 
         className={`fixed w-full px-1 mt-3 md:p-0 left-0 ${showGroceries ? 'h-screen' : ''} items-center justify-center bg-black bg-opacity-70 z-10`}>
+            <span className='text-white'>{sumQtyInputs}   --- 
+            {inputArr}  
+             --- {filteredInputArr} </span>
             {
                 showGroceries &&
                 <div>
@@ -86,11 +99,14 @@ const SearchGroceriesResults = () => {
                                     }
                                 </div>
                                 <div className='flex flex-row '>
-                                    {!Object.values(qtyInputs).includes(0) && groceries.length ? 
-                                    <div onClick={addToCart} className='mr-2'>
-                                        <Button btnText="Add to Basket" classname="defaultBtn" />
-                                    </div>
-                                    : ''}
+                                    { 
+                                        (inputArr.includes(0) && filteredInputArr.length) || (!inputArr.includes(0) && filteredInputArr.length) 
+                                        && groceries.length ? 
+                                        <div onClick={addToCart} className='mr-2'>
+                                            <Button btnText="Add to Basket" classname="defaultBtn" />
+                                        </div>
+                                        : ''
+                                    }
                                     <div onClick={cancelAddOrEdit}><Button btnText="Cancel" classname="redBtn" /></div>
                                 </div>
                             </div>

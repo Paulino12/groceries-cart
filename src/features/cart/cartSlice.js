@@ -12,7 +12,8 @@ const cartSlice = createSlice({
     reducers: {
         setCartItems: (state, action) => {
             const orderedGroceries = action.payload
-            state.cartItems = Object.values(orderedGroceries)
+            const fileredCartItems = Object.values(orderedGroceries).filter((elt) => elt.quantity !== 0)
+            state.cartItems = fileredCartItems
             state.amount = state.cartItems.length
         },
         setAmount: (state, action) => {

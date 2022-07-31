@@ -10,8 +10,5 @@ export const store = configureStore({
     ingredient: ingredientReducer,
     cart: cartReducer,
     notification: notificationReducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ // to be removed in production
-    immutableCheck: false
-  }),
+  }
 });

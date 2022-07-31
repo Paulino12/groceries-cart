@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Notification from './Notification'
 import Label from './forms/Label'
@@ -6,15 +6,17 @@ import Input from './forms/Input'
 import Select from './forms/Select'
 import { useSelector, useDispatch } from 'react-redux'
 import { setSupplier } from '../features/supplier/supplierSlice'
-import { setIngredient, setGroceries, setIsLoading, getGroceries, setShowGroceries } from '../features/ingredient/ingredientSlice'
+import { setIngredient, setGroceries, getGroceries, setShowGroceries } from '../features/ingredient/ingredientSlice'
 import useDebounce from '../customHooks/useDebounce'
 import SearchGroceriesResults from './SearchGroceriesResults'
 
 import { suppliers } from '../utils/suppliers'
 import { setNotification, setShowNotification } from '../features/notification/notificationSlice'
+import { CartContext } from '../contexts/cartContext'
 
 
 const SearchGroceryForm = () => {
+    const { qtyInputs, setQtyInputs, inputId, setShowAddToBasketBtn, data, setData } = useContext(CartContext)
     const { ingredient, error } = useSelector((store) => store.ingredient)
     const { supplier } = useSelector((store) => store.supplier)
     const { showNotification } = useSelector((store) => store.notification)
@@ -24,20 +26,18 @@ const SearchGroceryForm = () => {
     const debouncedQuery = useDebounce(ingredient, 250)
 
     useEffect(() => {
-        // check for errors
-        if(error){
-            dispatch(setNotification(error))
-            dispatch(setShowNotification(true))
+        if(ingredient === ""){
+            dispatch(setShowGroceries(false))
+            dispatch(setGroceries([]))
+            return
         }else{
-            dispatch(setIsLoading(true))
-            // get groceries based on input and selected supplier
-            if(ingredient === "") {// if empty do nothing
-                dispatch(setShowGroceries(false))
-                dispatch(setGroceries([]))
-                return
+            // check for errors
+            if(error){
+                dispatch(setNotification(error))
+                dispatch(setShowNotification(true))
+            }else{
+                dispatch(getGroceries({ingredient, supplier}))
             }
-            // get groceries
-            dispatch(getGroceries({ingredient, supplier}))
         }
     }, [debouncedQuery, supplier])
 
@@ -69,6 +69,7 @@ const SearchGroceryForm = () => {
                         value={supplier}
                         handleChange={(e) => dispatch(setSupplier(e.target.value))} 
                         options={suppliers}
+                        // disabled={disabled}
                          />
                     </div>
                     <div className='w-full md:w-2/3'>
@@ -78,7 +79,9 @@ const SearchGroceryForm = () => {
                         type="text"
                         value={ingredient}
                         handleChange={(e) => dispatch(setIngredient(e.target.value))}
-                        placeholder="Search an Ingredient" />
+                        placeholder="Search an Ingredient"
+                        // disabled={disabled}
+                         />
                     </div>
                 </div>
             </form>

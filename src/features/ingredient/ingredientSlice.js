@@ -31,7 +31,7 @@ export const getGroceries = createAsyncThunk('ingredient/getGroceries', async (n
             return groceriesBySupplier
         }
     } catch (error) {
-        return thunkAPI.rejectWithValue('Could not load ingredients. Please check your internet connection.')
+        return thunkAPI.rejectWithValue(error.message)
     }
 })
 
@@ -62,8 +62,12 @@ const ingredientSlice = createSlice({
             state.isLoading = false
         },
         [getGroceries.rejected]: (state, action) => {
-            // show errors
-            state.error = action.payload
+            // show errors only related to network
+            if(action.payload === "Network Error"){
+                state.error = "Could not load ingredients. Please check your internet connection."
+            }else{
+                state.error = ""
+            }
             state.isLoading = false
         }
     }
