@@ -14,9 +14,8 @@ import Preloader from './Preloader'
 import EmptyGroceriesResult from './EmptyGroceriesResult'
 
 const SearchGroceriesResults = () => {
-    const { cartItems } = useSelector((store) => store.cart) 
 
-    const { qtyInputs, data, handleInputs, inputId, setInputId, showAddToBasketBtn} = useContext(CartContext)
+    const { qtyInputs, data, handleInputs} = useContext(CartContext)
 
     const { groceries, showGroceries, isLoading, dynamicMessage } = useSelector((store) => store.ingredient)
     const dispatch = useDispatch()
@@ -97,7 +96,7 @@ const SearchGroceriesResults = () => {
                                 </div>
                                 <div className='flex flex-row '>
                                     { 
-                                        (inputArr.includes(0) && filteredInputArr.length) || (!inputArr.includes(0) && filteredInputArr.length) 
+                                        ((inputArr.includes(0) && filteredInputArr.length) || (!inputArr.includes(0) && filteredInputArr.length)) 
                                         && groceries.length ? 
                                         <div onClick={addToCart} className='mr-2'>
                                             <Button btnText="Add to Basket" classname="defaultBtn" />

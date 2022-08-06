@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Notification from './Notification'
 import Label from './forms/Label'
@@ -12,11 +12,9 @@ import SearchGroceriesResults from './SearchGroceriesResults'
 
 import { suppliers } from '../utils/suppliers'
 import { setNotification, setShowNotification } from '../features/notification/notificationSlice'
-import { CartContext } from '../contexts/cartContext'
 
 
 const SearchGroceryForm = () => {
-    const { qtyInputs, setQtyInputs, inputId, setShowAddToBasketBtn, data, setData } = useContext(CartContext)
     const { ingredient, error } = useSelector((store) => store.ingredient)
     const { supplier } = useSelector((store) => store.supplier)
     const { showNotification } = useSelector((store) => store.notification)
@@ -39,6 +37,7 @@ const SearchGroceryForm = () => {
                 dispatch(getGroceries({ingredient, supplier}))
             }
         }
+        // eslint-disable-next-line
     }, [debouncedQuery, supplier])
 
     return (
