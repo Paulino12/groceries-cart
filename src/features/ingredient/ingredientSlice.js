@@ -54,6 +54,7 @@ const ingredientSlice = createSlice({
     },
     extraReducers: {
         [getGroceries.pending]: (state) => {
+            state.showGroceries = true
             state.isLoading = true
         },
         [getGroceries.fulfilled]: (state, action) => {
