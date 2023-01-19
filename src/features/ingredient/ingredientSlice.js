@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { groceries } from "../../utils/groceriesData"
 
 const initialState = {
     ingredient: '',
@@ -12,7 +13,7 @@ const initialState = {
 const axiosOptions = (searchQuery) => {
     return {
         method: 'GET',
-        url: `https://caterers-groceries.herokuapp.com/search/${searchQuery}`
+        url: `https://caterer-groceries.onrender.com/search/${searchQuery}`
     }
 }
 
@@ -23,13 +24,15 @@ export const getGroceries = createAsyncThunk('ingredient/getGroceries', async (n
         // const regex = new RegExp(name.ingredient, 'gi')
         //i.e when adding product, ingredient input reset to empty,
         if(!name.ingredient && name.supplier === 'all') return initialState.groceries // therefore avoid a 404 error
-        const res = await axios.request(axiosOptions(newStr))
-        if(name.supplier === 'all'){
-            return res.data
-        }else{
-            const groceriesBySupplier = res.data.filter((grocery) => grocery.vendorName === name.supplier)
-            return groceriesBySupplier
-        }
+        // const res = await axios.request(axiosOptions(newStr))
+        // const res = await grocery
+        console.log(grocery.name)
+        // if(name.supplier === 'all'){
+        //     return res.data
+        // }else{
+        //     const groceriesBySupplier = res.data.filter((grocery) => grocery.vendorName === name.supplier)
+        //     return groceriesBySupplier
+        // }
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message)
     }

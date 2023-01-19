@@ -4,6 +4,7 @@ import './App.css'
 import SearchGroceriesForm from './components/SearchGroceriesForm'
 import Cart from './components/Cart'
 import PaginationAlgo from './components/algos/PaginationAlgo'
+import {CheckoutPage} from './components/stripe/Checkout'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Navbar />
       <SearchGroceriesForm />
       <Cart />
+      {/* <CheckoutPage /> */}
       {/* <PaginationAlgo /> */}
     </div>
   );
