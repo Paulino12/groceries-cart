@@ -30,7 +30,7 @@ export const getGroceries = createAsyncThunk('ingredient/getGroceries', async (n
         if(name.supplier === 'all'){
             return res.data.foundGroceries
         }else{
-            const groceriesBySupplier = res.data.filter((grocery) => grocery.vendorName === name.supplier)
+            const groceriesBySupplier = res.data.foundGroceries.filter((grocery) => grocery.vendorName === name.supplier)
             return groceriesBySupplier
         }
     } catch (error) {
